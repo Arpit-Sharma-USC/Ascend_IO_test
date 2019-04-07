@@ -1,0 +1,298 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+
+class Result {
+
+    /*
+     * Complete the 'connectedCities' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts following parameters:
+     *  1. INTEGER n
+     *  2. INTEGER g
+     *  3. INTEGER_ARRAY originCities
+     *  4. INTEGER_ARRAY destinationCities
+     */
+
+    public static List<Integer> connectedCities(int n, int g, List<Integer> originCities, List<Integer> destinationCities) {
+    // Write your code here
+        int[] root = new int[n + 1];
+        int[] ids = new int[n + 1];
+
+        for (int i = 0; i <= n; i++) {
+            root[i] = i;
+            ids[i] = 1;
+        }
+
+        for (int i = g + 1; i <= n; i++)
+            for (int j = 2 * i; j <= n; j += i)
+                unionFind(j, i, root, ids);
+
+        List<Integer> res = new ArrayList<>(originCities.size());
+        Iterator<Integer> itSrc = originCities.iterator();
+        Iterator<Integer> itDest = destinationCities.iterator();
+
+        while (itSrc.hasNext() && itDest.hasNext())
+            res.add(getRoot(itSrc.next(), root) == getRoot(itDest.next(), root) ? 1 : 0);
+
+        return res;
+    }
+    
+    private static void unionFind(int a, int b, int[] root, int[] ids) {
+        int aRoot = getRoot(a, root);
+        int bRoot = getRoot(b, root);
+
+        if (aRoot == bRoot)
+            return;
+
+        if (ids[aRoot] < ids[bRoot]) {
+            root[aRoot] = root[bRoot];
+            ids[bRoot] += ids[aRoot];
+        } else {
+            root[bRoot] = root[aRoot];
+            ids[aRoot] += ids[bRoot];
+        }
+    }
+
+    private static int getRoot(int temp, int[] parent_node) {
+        while (temp != parent_node[temp])
+            temp = parent_node[temp];
+        return temp;
+    }
+
+}
+
+public class Solution {
+
+
+
+
+travelling is fun
+
+
+
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+
+
+
+    private HashMap<Character,Character> myMap;
+    Solution(){
+        this.myMap =  new HashMap<Character,Character>();
+        this.myMap.put(')','(');
+        this.myMap.put('}','{');
+        this.myMap.put(']','[');
+
+    }
+    
+
+    static Boolean checker(String s)
+    {
+
+        Stack<Character> stack = new Stack<Character>();
+        HashMap<Character, Character> myMap;
+        myMap = new HashMap<Character, Character>();
+        myMap.put(')', '(');
+        myMap.put('}', '{');
+        myMap.put(']', '[');
+        for (int i = 0; i < s.length(); i++) {
+
+            char ch = s.charAt(i);
+            if (myMap.containsKey(ch)) {
+                // closing bracket found
+                char topE = stack.empty() ? '#' : stack.pop();
+                if (topE != myMap.get(ch))
+                    return false;
+            } else
+                stack.push(ch);
+
+        }
+        return stack.isEmpty();
+            
+        // else
+        // answer.add("NO");
+
+    }
+
+    
+    // Complete the braces function below.
+     static String[] braces(String[] values) {
+         List<String> answer = new ArrayList<>();
+        for(String s: values)
+        {
+            if(checker(s))
+                answer.add("YES");
+            else
+                answer.add("NO");
+        }
+        String[] myArr = answer.stream().toArray(String[]::new);
+        return myArr;
+
+
+
+
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+
+//braces
+
+
+
+
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+
+
+class Result {
+
+    /*
+     * Complete the 'zombieCluster' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts STRING_ARRAY zombies as parameter.
+     */
+   
+
+
+    public static int zombieCluster(List<String> zombies_l) {
+         String[] zombies = zombies_l.stream().toArray(String[]::new);
+        int N = zombies_l.size();
+        int[][] M = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                M[i][j] = Integer.parseInt(zombies[i].charAt(j) + "");
+            }
+        }
+      
+        boolean visited[] = new boolean[N];
+       
+        boolean visiting[] = new boolean[N];
+        int count = 0;
+        for (int i = 0; i < N; ++i) {
+            if (!visited[i]) {
+                visiting[i] = true;
+                DFS(M, N, visited, visiting, i);
+                visited[i] = true;
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static void DFS(int M[][], int N, boolean visited[], boolean[] visiting, int s) {
+        if (!visited[s]) {
+            visiting[s] = true;
+            for (int j = s + 1; j < N; j++) {
+                if (M[s][j] == 1 && !visited[j]) {
+                    visiting[j] = true;
+                    DFS(M, N, visited, visiting, j);
+                    visited[j] = true;
+                }
+            }
+        }
+    }
+}
+
+public class Solution {
+
+
+//zombie cluster
+
+
+
+
+
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+
+
+class Result {
+
+    /*
+     * Complete the 'getScore' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts STRING s as parameter.
+     */
+    static int[][] longestPalindromicSubsequence(String str_temp) {
+        int n = str_temp.length();
+        int i, j, c;
+        int L_result[][] = new int[n][n];
+
+        for (i = 0; i < n; i++)
+            L_result[i][i] = 1;
+
+        for (c = 2; c <= n; c++) {
+            for (i = 0; i < n - c + 1; i++) {
+                j = i + c - 1;
+                if(str_temp.charAt(i) == str_temp.charAt(j))
+                    L_result[i][j] = L_result[i + 1][j - 1] + 2;
+                else if(str_temp.charAt(i) == str_temp.charAt(j) && c == 2)
+                     L_result[i][j] = 2; 
+                else
+                    L_result[i][j] = Math.max(L_result[i][j - 1], L_result[i + 1][j]);
+            }
+        }
+        return L_result;
+    }
+    public static int getScore(String s) {
+    // Write your code here
+        int prod = -1;
+        int answer[][] = longestPalindromicSubsequence(s);
+        for (int i = 0; i < s.length() - 1; i++) {
+            int temp;
+            temp = answer[0][i] * answer[i + 1][s.length() - 1];
+            if (prod <= temp)
+                prod = temp;
+        }
+        return prod;
+    }
+
+}
+
+public class Solution {
+
+
+//fun with palindromes
+
